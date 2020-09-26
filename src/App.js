@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Switch, Route } from "react-router-dom";
+import CheckEmailPage from "./pages/CheckEmailPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import { CustomerContext } from "./contexts/CustomerContext";
 
 function App() {
+  const [customerList, setCustomerList] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Business Project</h1>
+      <CustomerContext.Provider value={{ customerList, setCustomerList }}>
+        <Switch>
+          <Route path="/checkemail">
+            <CheckEmailPage />
+          </Route>
+          <Route path="/home">
+            <div>
+              <HomePage />
+            </div>
+          </Route>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/">
+            <RegisterPage />
+          </Route>
+        </Switch>
+      </CustomerContext.Provider>
     </div>
   );
 }
-
 export default App;
+/*
+***email: nackademin@willandskill.se***
+email: mian@willandskill.se
+password: js-fend-19
+*/
