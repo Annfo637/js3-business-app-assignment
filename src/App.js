@@ -22,7 +22,7 @@ const MainStyle = styled.div`
 `;
 
 function App() {
-  const [customerList, setCustomerList] = useState(null);
+  const [customerList, setCustomerList] = useState([]);
   const [user, setUser] = useState(null);
 
   return (

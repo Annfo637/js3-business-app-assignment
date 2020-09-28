@@ -33,10 +33,12 @@ const DeleteButton = styled(SimpleButton)`
 
 export default function CustomerPage(props) {
   const customerKit = new CustomerKit();
-  //const { customerList } = useContext(CustomerContext);
-  const customerList = JSON.parse(localStorage.getItem("CUSTOMER_LIST"));
+  const { customerList } = useContext(CustomerContext);
   console.log(customerList);
   const customerId = props.match.params.id;
+
+  //Kanske borde jag ha en useEffect för att hämta enskild kund,
+  //så att fetchen körs varje gång sidan laddas
   const customerObject =
     customerList &&
     customerList.find(function (customer) {
@@ -47,9 +49,14 @@ export default function CustomerPage(props) {
   const history = useHistory();
 
   function handleDeleteCustomer() {
-    customerKit.deleteCustomer(customerId).then(() => {
-      history.push("/home");
-    });
+    customerKit
+      .deleteCustomer(customerId)
+      .then(() => {
+        customerKit.getCustomerList();
+      })
+      .then(() => {
+        history.push("/home");
+      });
   }
 
   return (

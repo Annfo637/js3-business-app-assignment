@@ -1,6 +1,6 @@
 const ROOT_URL = "https://frebi.willandskill.eu/";
 const token = localStorage.getItem("BUSINESS_TOKEN");
-console.log(token);
+//console.log(token);
 
 export default class {
   async getCustomerList() {

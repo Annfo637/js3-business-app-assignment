@@ -38,10 +38,6 @@ export default function CustomerList() {
     fetchCustomerList();
   }, []);
 
-  function storeCustomerList(list) {
-    localStorage.setItem("CUSTOMER_LIST", JSON.stringify(list));
-  }
-
   function fetchCustomerList() {
     customerKit
       .getCustomerList()
@@ -49,7 +45,6 @@ export default function CustomerList() {
       .then((data) => {
         console.log(data);
         setCustomerList(data.results);
-        storeCustomerList(data.results);
       })
       .catch((error) => {
         console.log(error);
@@ -59,7 +54,7 @@ export default function CustomerList() {
   //I customer list ska namn, orgnr och referens visas
   return (
     <div>
-      {customerList ? (
+      {Object.entries(customerList).length > 0 ? (
         <CustomerTable>
           <thead>
             <tr>
