@@ -1,15 +1,46 @@
 import React, { useContext, useEffect } from "react";
+import styled from "styled-components";
 import CustomerKit from "../data/CustomerKit";
 import { CustomerContext } from "../contexts/CustomerContext";
+import { Link } from "react-router-dom";
+
+const CustomerTable = styled.table`
+  background-color: whitesmoke;
+  border-radius: 5px;
+  box-shadow: 5px 10px 15px darkslategray;
+  margin-bottom: 30px;
+`;
+
+const TableHeaders = styled.th`
+  background-color: gray;
+  color: whitesmoke;
+  margin-bottom: 5px;
+  padding: 10px;
+`;
+
+const TableInfo = styled.td`
+  padding: 10px;
+`;
+
+const LinkButton = styled.button`
+  margin-top: 10px;
+  border: solid darkslategray 1px;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 3px;
+`;
 
 export default function CustomerList() {
-  //const [customerList, setCustomerList] = useState(null);
   const customerKit = new CustomerKit();
   const { customerList, setCustomerList } = useContext(CustomerContext);
 
   useEffect(() => {
     fetchCustomerList();
   }, []);
+
+  function storeCustomerList(list) {
+    localStorage.setItem("CUSTOMER_LIST", JSON.stringify(list));
+  }
 
   function fetchCustomerList() {
     customerKit
@@ -18,6 +49,7 @@ export default function CustomerList() {
       .then((data) => {
         console.log(data);
         setCustomerList(data.results);
+        storeCustomerList(data.results);
       })
       .catch((error) => {
         console.log(error);
@@ -28,29 +60,34 @@ export default function CustomerList() {
   return (
     <div>
       {customerList ? (
-        <table>
+        <CustomerTable>
           <thead>
             <tr>
-              <th>Company name</th>
-              <th>Organisation Number</th>
-              <th>Reference</th>
+              <TableHeaders>Company name</TableHeaders>
+              <TableHeaders>Organisation Number</TableHeaders>
+              <TableHeaders>Reference</TableHeaders>
+              <TableHeaders>Details</TableHeaders>
             </tr>
           </thead>
           <tbody>
             {customerList.map((customerItem) => {
               return (
                 <tr key={customerItem.id}>
-                  <td>{customerItem.name}</td>
-                  <td>{customerItem.organisationNr}</td>
-                  <td>{customerItem.reference}</td>
-                  <td>
-                    <button>More info</button>
-                  </td>
+                  <TableInfo>{customerItem.name}</TableInfo>
+                  <TableInfo>{customerItem.organisationNr}</TableInfo>
+                  <TableInfo>{customerItem.reference}</TableInfo>
+                  <TableInfo>
+                    <LinkButton>
+                      <Link to={`/customer/${customerItem.id}`}>
+                        Read all info
+                      </Link>
+                    </LinkButton>
+                  </TableInfo>
                 </tr>
               );
             })}
           </tbody>
-        </table>
+        </CustomerTable>
       ) : (
         <p>You haven't added any customers yet.</p>
       )}

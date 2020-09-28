@@ -1,6 +1,24 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import UserKit from "../data/UserKit";
 import { useHistory } from "react-router-dom";
+
+const Label = styled.label`
+  margin-right: 5px;
+  margin-bottom: 5px;
+`;
+const InputField = styled.input`
+  margin-bottom: 5px;
+  border: solid darkslategray 1px;
+  border-radius: 5px;
+`;
+
+const SimpleButton = styled.button`
+  border: solid darkslategray 1px;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 3px;
+`;
 
 export default function RegisterForm() {
   const [firstName, setFirstName] = useState("");
@@ -37,8 +55,8 @@ export default function RegisterForm() {
   function renderInput(index, placeholder, stateVariable, stateSetVariable) {
     return (
       <div key={index}>
-        <label>{placeholder}</label>
-        <input
+        <Label>{placeholder}: </Label>
+        <InputField
           placeholder={placeholder}
           value={stateVariable}
           onChange={(e) => stateSetVariable(e.target.value)}
@@ -52,7 +70,7 @@ export default function RegisterForm() {
       {inputObjects.map((inputItem, index) => {
         return renderInput(index, inputItem[0], inputItem[1], inputItem[2]);
       })}
-      <button onClick={handleRegister}>Register</button>
+      <SimpleButton onClick={handleRegister}>Register</SimpleButton>
     </>
   );
 }

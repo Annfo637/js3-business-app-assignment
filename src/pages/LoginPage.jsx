@@ -1,6 +1,34 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import UserKit from "../data/UserKit";
 import { useHistory } from "react-router-dom";
+
+const InputField = styled.input`
+  margin-bottom: 5px;
+  margin-right: 8px;
+  padding: 5px;
+  border: solid darkslategray 1px;
+  border-radius: 5px;
+`;
+
+const SimpleButton = styled.button`
+  border: solid darkslategray 1px;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 3px;
+`;
+
+const Message = styled.p`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 1em;
+`;
+
+const MessageSmall = styled(Message)`
+  font-size: 16px;
+  font-weight: normal;
+`;
 
 export default function LoginPage() {
   const [loginEmail, setLoginEmail] = useState("");
@@ -9,7 +37,6 @@ export default function LoginPage() {
   const userKit = new UserKit();
   const history = useHistory();
   const searchstring = history.location.search;
-  //console.log(searchstring);
   const urlParameters = new URLSearchParams(searchstring);
 
   const [uid, setUid] = useState(urlParameters.get("uid"));
@@ -38,23 +65,25 @@ export default function LoginPage() {
     <div>
       {uid && token ? (
         <div>
-          <h4>Click the button to activate your account</h4>
-          <button onClick={handleActivateUser}>Activate user</button>
+          <MessageSmall>Click the button to activate your account</MessageSmall>
+          <SimpleButton onClick={handleActivateUser}>
+            Activate user
+          </SimpleButton>
         </div>
       ) : (
         <div>
-          <h2>Login</h2>
-          <input
+          <Message>Enter email and password for login</Message>
+          <InputField
             placeholder="email"
             value={loginEmail}
             onChange={(e) => setLoginEmail(e.target.value)}
           />
-          <input
+          <InputField
             placeholder="password"
             value={loginPassword}
             onChange={(e) => setLoginPassword(e.target.value)}
           />
-          <button onClick={handleLogin}>Login</button>
+          <SimpleButton onClick={handleLogin}>Login</SimpleButton>
         </div>
       )}
     </div>
